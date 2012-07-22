@@ -2,7 +2,7 @@
 <div id="content">
     <h1 class="icoTitle"><img src="/_pict/ico/forms.png" alt="Tools - form generation"/>{{Lien web}}</h1>
     <form method="post">
-        <label for="URL">URL: </label><input type="text" size="80" name="URL" id="URL" value="<?= $_REQUEST['URL'] ?>" />
+        <label for="URL">URL: </label><input type="text" size="80" name="URL" id="URL" value="<?= array_key_exists('URL', $_REQUEST) ? $_REQUEST['URL'] : '' ?>" />
     </form>
 <?php
 if (array_key_exists('URL', $_REQUEST)) {
@@ -44,7 +44,7 @@ if (array_key_exists('URL', $_REQUEST)) {
 	<li><a href="http://fr.wikipedia.org/wiki/Modèle:Article">{{Article}}</a></li>
 	<li><a href="http://www.prismstandard.org/specifications/">PRISM</a></li>
 	<li><a href="http://dublincore.org/">Dublin Core</a></li>
-	<li><a href="http://scholar.google.com/intl/en/scholar/inclusion.html">Google 
-Scholar</a></li>
+	<li><a href="http://scholar.google.com/intl/en/scholar/inclusion.html">Google Scholar</a></li>
+	<li><a href="http://ogp.me/">Open Graph</a></li>
     </ul>
 </div>

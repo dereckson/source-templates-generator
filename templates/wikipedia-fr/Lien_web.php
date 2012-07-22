@@ -26,6 +26,7 @@ class LienWebTemplate extends Template {
 		$template = new LienWebTemplate();
 
 		$template->author = $page->author;
+		$template->skipAuthor = $page->skipAuthor;
 		$template->url = $page->url;
 		$template->title = $page->title;
 		$template->dd = $page->yyyy;
@@ -39,14 +40,16 @@ class LienWebTemplate extends Template {
 	}
 
 	function __toString () {
-		$this->params['auteur'] = $this->author;
-		$this->params['url'] = $this->url;
+		if (!$this->skipAuthor) {
+			$this->params['auteur'] = $this->author;
+		}
 		$this->params['titre'] = $this->title;
 		if (!$this->skipYMD) {
 			$this->params['jour'] = $this->mm;
 			$this->params['mois'] = $this->dd;
 			$this->params['année'] = $this->yyyy;
 		}
+		$this->params['url'] = $this->url;
 		$this->params['site'] = $this->site;
 		$this->params['en ligne le'] = $this->publishdate;
 		$this->params['consulté le'] = $this->accessdate;

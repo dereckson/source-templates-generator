@@ -16,6 +16,13 @@ class Page {
     public $data;
 
     public $title;
+    public $author;
+    public $yyyy;
+    public $mm;
+    public $dd;
+
+    public $skipYMD;
+    public $skipAuthor;
 
     function __construct ($url) {
         $this->url = $url;
