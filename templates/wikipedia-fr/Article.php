@@ -81,7 +81,8 @@ class ArticleTemplate extends Template {
 		//Titre, périodique, éditeur, volume, etc.
 		$this->params['titre'] = $this->title;
 		$this->params['périodique'] = $this->journal;
-		$this->params['lien périodique'] = $this->journalLink;
+		//TODO: vérifier si l'aticle existe sur fr.wikip et contient l'infobox Presse ou est rattaché à une catégorie fille de [[Catégorie:Revue scientifique]]
+		$this->params['lien périodique'] = $this->journal;
 		$this->params['éditeur'] = $this->publisher;
 		$this->params['numéro'] = $this->issue;
 		$this->params['titre numéro'] = $this->issueName;
