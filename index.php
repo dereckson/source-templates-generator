@@ -3,6 +3,7 @@
     <h1 class="icoTitle"><img src="/_pict/ico/forms.png" alt="Tools - form generation"/>{{Lien web}}</h1>
     <form method="post">
         <label for="URL">URL: </label><input type="text" size="80" name="URL" id="URL" value="<?= array_key_exists('URL', $_REQUEST) ? $_REQUEST['URL'] : '' ?>" />
+	<input type="submit" value="OK">
     </form>
 <?php
 if (array_key_exists('URL', $_REQUEST)) {
@@ -35,6 +36,11 @@ if (array_key_exists('URL', $_REQUEST)) {
     echo "\n    </table>";
 }
 ?>
+    <h3>How to improve this tool?</h3>
+    <p>A little PHP knowledge will allow you to customize and improve this tool. I will be happy to accept patches in this goal.</p>
+    <p>If you wish to adapt this tool to be used on another website (a Wikipedia project in another language or outside Wikipedia), please see the template.php file and samples in the templates/ folder.</p>
+    <p>If you wish to add websites analysis, please add the URL in index.dat, then create a class which extends Page ; see page.php and the pages/ folder.</p>
+    <p><strong>Source code:</strong> [ <a href="http://hg.dereckson.be/source-templates-generator">git repository</a> | <a href="https://bitbucket.org/dereckson/source-templates-generator/get/master.zip">download current snapshot</a> ]</p>
 </div>
 
 <!-- left menu -->
