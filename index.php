@@ -3,7 +3,13 @@
     <h1 class="icoTitle"><img src="/_pict/ico/forms.png" alt="Tools - form generation"/>{{Lien web}}</h1>
     <form method="post">
         <label for="URL">URL: </label><input type="text" size="80" name="URL" id="URL" value="<?= array_key_exists('URL', $_REQUEST) ? $_REQUEST['URL'] : '' ?>" />
-	<input type="submit" value="OK">
+	<input type="submit" value="OK"><br />
+	Prints the template
+	<input type="radio" name="format" id="format_multiline" value="0" <?= $_REQUEST['format'] ? '' : 'checked ' ?>/><label for="format_multiline">in multi-lines mode</label>
+	<input type="radio" name="format" id="format_oneline_spaced" value="1" <?= ($_REQUEST['format'] == 1) ? 'checked ' : '' ?>/><label for="format_oneline_spaced"">in one line (with spaces)</label>
+        <br />
+        <input type="radio" name="format" id="format_oneline_nospace" value="2" <?= ($_REQUEST['format'] == 2) ? 'checked ' : '' ?>/><label for="format_oneline_nospace"">in one line (without space)</label>
+	<input type="radio" name="format" id="format_oneline_spacebeforepipe" value="3" <?= ($_REQUEST['format'] == 3) ? 'checked ' : '' ?>/><label for="format_oneline_spacebeforepipe"">in one line (without space, except before |)</label>
     </form>
 <?php
 if (array_key_exists('URL', $_REQUEST)) {
@@ -14,8 +20,8 @@ if (array_key_exists('URL', $_REQUEST)) {
     if (!filter_var($url, FILTER_VALIDATE_URL)) {
         message_die(GENERAL_ERROR, "$url isn't a valid URL.", 'URL issue');
     }
-       
-    //Get page information
+
+    //Gets page information
     setlocale(LC_TIME, 'fr_FR.UTF-8');
     $page = Page::load($url);
     if ($page->error) {
@@ -35,7 +41,25 @@ if (array_key_exists('URL', $_REQUEST)) {
         require('templates/wikipedia-fr/Lien_web.php');
         $template = LienWebTemplate::loadFromPage($page);
     }
-    echo $template, '</textarea>';
+
+    switch ($_REQUEST['format']) {
+        case 1:
+            $template = str_replace("\n", '', $template);
+            break;
+
+       case 2:
+            $template = str_replace("\n | ", '|', $template);
+            $template = str_replace(" = ", '=', $template);
+            break;
+
+      case 3:
+           $template = str_replace("\n | ", ' |', $template);
+           $template = str_replace(" = ", '=', $template);
+           break;
+    }
+
+    echo $template;
+    echo '</textarea>';
 
     //Meta tags
     echo "\n\n    <h3>Meta tags</h3>\n    <table cellpadding=8>\n        <tr><th>Tag</th><th>Value</th></tr>";
