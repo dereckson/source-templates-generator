@@ -1,3 +1,13 @@
+<?php
+//Get default form settings
+$format = 0;
+if (array_key_exists('format', $_REQUEST)) {
+    $format = $_REQUEST['format'];
+} elseif (array_key_exists('format', $_COOKIE)) {
+    $format = $_COOKIE['format'];
+}
+?>
+
 <!-- Content -->
 <div id="content">
     <h1 class="icoTitle"><img src="/_pict/ico/forms.png" alt="Tools - form generation"/>{{Lien web}}</h1>
@@ -5,11 +15,11 @@
         <label for="URL">URL: </label><input type="text" size="80" name="URL" id="URL" value="<?= array_key_exists('URL', $_REQUEST) ? $_REQUEST['URL'] : '' ?>" />
 	<input type="submit" value="OK"><br />
 	Prints the template
-	<input type="radio" name="format" id="format_multiline" value="0" <?= $_REQUEST['format'] ? '' : 'checked ' ?>/><label for="format_multiline">in multi-lines mode</label>
-	<input type="radio" name="format" id="format_oneline_spaced" value="1" <?= ($_REQUEST['format'] == 1) ? 'checked ' : '' ?>/><label for="format_oneline_spaced"">in one line (with spaces)</label>
+	<input type="radio" name="format" id="format_multiline" value="0" <?= $format ? '' : 'checked ' ?>/><label for="format_multiline">in multi-lines mode</label>
+	<input type="radio" name="format" id="format_oneline_spaced" value="1" <?= ($format == 1) ? 'checked ' : '' ?>/><label for="format_oneline_spaced"">in one line (with spaces)</label>
         <br />
-        <input type="radio" name="format" id="format_oneline_nospace" value="2" <?= ($_REQUEST['format'] == 2) ? 'checked ' : '' ?>/><label for="format_oneline_nospace"">in one line (without space)</label>
-	<input type="radio" name="format" id="format_oneline_spacebeforepipe" value="3" <?= ($_REQUEST['format'] == 3) ? 'checked ' : '' ?>/><label for="format_oneline_spacebeforepipe"">in one line (without space, except before |)</label>
+        <input type="radio" name="format" id="format_oneline_nospace" value="2" <?= ($format == 2) ? 'checked ' : '' ?>/><label for="format_oneline_nospace"">in one line (without space)</label>
+	<input type="radio" name="format" id="format_oneline_spacebeforepipe" value="3" <?= ($format == 3) ? 'checked ' : '' ?>/><label for="format_oneline_spacebeforepipe"">in one line (without space, except before |)</label>
     </form>
 <?php
 if (array_key_exists('URL', $_REQUEST)) {
@@ -31,8 +41,7 @@ if (array_key_exists('URL', $_REQUEST)) {
         echo "<h3>Note</h3><p>Cette URL pointe vers un article de revue, aussi le modèle {{Article}} est indiqué.</p>";
     }
 
-    //Template
-    echo "    <h3>Template</h3>    \n    <textarea id=\"template\" rows=20 cols=80>\n";
+    //Gets template
     require('templates/template.php');
     if ($page->is_article()) {
         require('templates/wikipedia-fr/Article.php');
@@ -42,6 +51,7 @@ if (array_key_exists('URL', $_REQUEST)) {
         $template = LienWebTemplate::loadFromPage($page);
     }
 
+    //Reformats template if needed
     switch ($_REQUEST['format']) {
         case 1:
             $template = str_replace("\n", '', $template);
@@ -52,12 +62,19 @@ if (array_key_exists('URL', $_REQUEST)) {
             $template = str_replace(" = ", '=', $template);
             break;
 
-      case 3:
+       case 3:
            $template = str_replace("\n | ", ' |', $template);
            $template = str_replace(" = ", '=', $template);
            break;
     }
 
+    //Remembers 30 days the format setting
+    if (array_key_exists('format', $_REQUEST)) {
+        setcookie('format', $_REQUEST['format'], time() + 2592000);
+    }
+
+    //Prints template
+    echo "    <h3>Template</h3>    \n    <textarea id=\"template\" rows=20 cols=80>\n$template</textarea>";
     echo $template;
     echo '</textarea>';
 
