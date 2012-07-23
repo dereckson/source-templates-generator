@@ -75,8 +75,6 @@ if (array_key_exists('URL', $_REQUEST)) {
 
     //Prints template
     echo "    <h3>Template</h3>    \n    <textarea id=\"template\" rows=20 cols=80>\n$template</textarea>";
-    echo $template;
-    echo '</textarea>';
 
     //Meta tags
     echo "\n\n    <h3>Meta tags</h3>\n    <table cellpadding=8>\n        <tr><th>Tag</th><th>Value</th></tr>";
