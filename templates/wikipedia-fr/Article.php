@@ -54,12 +54,12 @@ class ArticleTemplate extends Template {
 			$template->mm   = substr($date, 5, 2);
 			$template->dd   = substr($date, 8, 2);
 		} else {
-			$template->yyyy = page::getMetaTag($t, 'citation_year');
+			$template->yyyy = page::getMetaTag($t, 'citation_year', 'citation_publication_date');
 		}
 
 		//Pages
-		$template->pageStart = page::getMetaTag($t, 'prism_startingpage', 'citation_firstpage');
-		$template->pageEnd   = page::getMetaTag($t, 'prism_endingpage',   'citation_lastpage');
+		$template->pageStart = page::getMetaTag($t, 'prism_startingpage', 'citation_firstpage', 'citation_first_page');
+		$template->pageEnd   = page::getMetaTag($t, 'prism_endingpage',   'citation_lastpage', 'citation_last_page');
 
 		//ISBN, ISSN, URLs
 		$template->issn = page::getMetaTag($t, 'prism_issn', 'citation_issn');
