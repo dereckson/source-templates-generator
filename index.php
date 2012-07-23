@@ -9,9 +9,18 @@
 if (array_key_exists('URL', $_REQUEST)) {
     include('page.php');
 
+    //Does the specified URL valid and exist?
     $url = $_REQUEST['URL'];
+    if (!filter_var($url, FILTER_VALIDATE_URL)) {
+        message_die(GENERAL_ERROR, "$url isn't a valid URL.", 'URL issue');
+    }
+       
+    //Get page information
     setlocale(LC_TIME, 'fr_FR.UTF-8');
     $page = Page::load($url);
+    if ($page->error) {
+        message_die(GENERAL_ERROR, "Can't open $url", 'URL issue');
+    }
     if ($page->is_article()) {
         echo "<h3>Note</h3><p>Cette URL pointe vers un article de revue, aussi le modèle {{Article}} est indiqué.</p>";
     }

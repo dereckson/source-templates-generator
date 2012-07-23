@@ -29,8 +29,8 @@ class LienWebTemplate extends Template {
 		$template->skipAuthor = $page->skipAuthor;
 		$template->url = $page->url;
 		$template->title = $page->title;
-		$template->dd = $page->yyyy;
-		$template->mm = $page->yyyy;
+		$template->dd = $page->dd;
+		$template->mm = $page->mm;
 		$template->yyyy = $page->yyyy;
 		$template->site = $page->site;
 		$template->publishdate = $page->date;
