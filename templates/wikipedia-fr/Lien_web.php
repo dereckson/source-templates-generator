@@ -3,6 +3,7 @@ setlocale(LC_TIME, 'fr_FR.UTF-8');
 
 class LienWebTemplate extends Template {
 	public $author;
+	public $coauthors;
 	public $url;
 	public $title;
 	public $dd;
@@ -17,6 +18,11 @@ class LienWebTemplate extends Template {
 	 */
 	public $skipYMD = false;
 
+	/**
+	 * @var bool Indicates if we've to remove auteur and coauteurs parameters
+	 */
+	public $skipAuthor = false;
+
 	function __construct () {
 		$this->name = "Lien web";
 		$this->accessdate = trim(strftime(LONG_DATE_FORMAT));
@@ -27,6 +33,7 @@ class LienWebTemplate extends Template {
 
 		$template->author = $page->author;
 		$template->skipAuthor = $page->skipAuthor;
+		$template->coauthors = $page->coauthors;
 		$template->url = $page->url;
 		$template->title = $page->title;
 		$template->dd = $page->dd;
@@ -42,6 +49,10 @@ class LienWebTemplate extends Template {
 	function __toString () {
 		if (!$this->skipAuthor) {
 			$this->params['auteur'] = $this->author;
+
+			if ($this->coauthors) {
+				$this->params['coauteurs'] = implode(', ', $this->coauthors);
+			}
 		}
 		$this->params['titre'] = $this->title;
 		if (!$this->skipYMD) {

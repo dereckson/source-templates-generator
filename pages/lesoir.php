@@ -18,20 +18,41 @@ class LeSoirPage extends Page {
         $this->date = strftime(LONG_DATE_FORMAT, mktime(0, 0, 0, $mm, $dd, $yyyy));
 
 	//Gets author
-	//TODO: ensure no article has more than one author
-        $pos1 = strpos($this->data, '<p class="info st_signature">') + 29;
-        $pos2 = strpos($this->data, '</p>', $pos1);
-        $author = substr($this->data, $pos1, $pos2 - $pos1);
-	if ($author == "R&#233;daction en ligne") {
-		$this->skipAuthor = true;
+	$authors = self::between('st_signature">', '</p>');
+
+	if ($authors == "R&#233;daction en ligne") {
+	    $this->skipAuthor = true;
 	} else {
-		require_once('helpers/namecase.php');
-		$this->author =  name_case($author);
+	    require_once('helpers/namecase.php');
+
+            //Some Le Soir articles use firstname name, others name,firstname.
+            //When there are several authors, ' ;' is the separator.
+            //Authors are in uppercase, so we need to clean case.
+
+	    $authors = explode('; ', $authors);
+            $start = true;
+
+            foreach ($authors as $author) {
+                if (strpos($author, ',') !== false) {
+                    $name = explode(',', $author, 2);
+                    $author = $name[1] . ' ' . $name[0];
+                }
+                $author = name_case($author);
+                if ($start) {
+                    $this->author = name_case($author);
+                    $start = false;
+                } else {
+                    $this->coauthors[] = name_case($author);
+                }
+            }
 	}
     }
 
     function get_title () {
-        return $this->meta_tags['og:title'];
+        if (!$title = $this->meta_tags['og:title']) {
+            $title = parent::get_title();
+	}
+        return $title;
     }
 
     function get_meta_tags () {

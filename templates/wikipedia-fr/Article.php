@@ -37,7 +37,7 @@ class ArticleTemplate extends Template {
 		$template->publisher = page::getMetaTag($t, 'dc_publisher', 'citation_publisher');
 
 		//Issue name, number and volume
-		$template->issue = page::getMetaTag($t, 'prism_number', 'citation_issue');
+		$template->issue  = page::getMetaTag($t, 'prism_number', 'citation_issue');
 		$template->volume = page::getMetaTag($t, 'citation_volume');
 		if (
 			(!$template->issueName = $t['prism_issuename'])
