@@ -1,12 +1,12 @@
 <?php
 
-//Page analysis for www.lesoir.be
+//Page analysis for www.lalibre.be
 class LaLibreBelgiquePage extends Page {
     function analyse () {
         //La Libre uses ISO-8859-1 and not UTF-8
         $this->data = iconv('iso-8859-1', 'utf-8', $this->data);
 
-	//Cals parent analyzer
+	//Calls parent analyzer
         parent::analyse();
 
         //Hardcoded known info
@@ -14,8 +14,6 @@ class LaLibreBelgiquePage extends Page {
         $this->skipYMD = true;
 
         //Gets date
-        //meta tag 'archi_id' has t-YYYYMMDD-HHMMhh as format (where hh = AM/PM)
-	//                   e.g. t-20120722-0211PM
         $date = trim(self::between('Mis en ligne le ', '</p>'));
         $yyyy = substr($date, 6, 4);
         $mm   = substr($date, 3, 2);
@@ -37,7 +35,6 @@ class LaLibreBelgiquePage extends Page {
                     case 'G. Dt':       $author =  'Guy Duplat'; break;
                     case 'afp':         $author =  'AFP'; break;
                 }
-                if ($author == 'G. Dt') $author = 'Guy Duplat';
                 if ($start) {
                     $this->author = $author;
                     $start = false;
@@ -57,6 +54,6 @@ class LaLibreBelgiquePage extends Page {
 	//This site doesn't always use <meta name="" value=""> but sometimes property= or itemprop=
         return $this->get_all_meta_tags();
     }
-} 
+}
 
 ?>
