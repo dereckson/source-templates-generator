@@ -35,7 +35,6 @@ class LaLibreBelgiquePage extends Page {
                     case 'G. Dt':       $author =  'Guy Duplat'; break;
                     case 'afp':         $author =  'AFP'; break;
                 }
-                if ($author == 'G. Dt') $author = 'Guy Duplat';
                 if ($start) {
                     $this->author = $author;
                     $start = false;
