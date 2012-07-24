@@ -6,7 +6,7 @@ class LaLibreBelgiquePage extends Page {
         //La Libre uses ISO-8859-1 and not UTF-8
         $this->data = iconv('iso-8859-1', 'utf-8', $this->data);
 
-	//Cals parent analyzer
+	//Calls parent analyzer
         parent::analyse();
 
         //Hardcoded known info
