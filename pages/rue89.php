@@ -30,11 +30,6 @@ class Rue89Page extends Page {
 	//Article title is the meta tag name, and not the page title
         return $this->meta_tags['name'];
     }
-
-    function get_meta_tags () {
-	//Rue89 doesn't always use <meta name="" value=""> but sometimes property= or itemprop=
-        return $this->get_all_meta_tags();
-    }
 }
 
 ?>

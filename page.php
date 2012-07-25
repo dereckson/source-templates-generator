@@ -142,7 +142,7 @@ class Page {
      * @return array an array where the keys are the metatags' names and the values the metatags' values
      */
     function get_meta_tags () {
-        return get_meta_tags($this->url);
+        return $this::get_all_meta_tags($this->url);
     }
 
     /**

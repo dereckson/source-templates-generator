@@ -55,11 +55,6 @@ class LeSoirPage extends Page {
 	}
         return $title;
     }
-
-    function get_meta_tags () {
-	//Rue89 doesn't always use <meta name="" value=""> but sometimes property= or itemprop=
-        return $this->get_all_meta_tags();
-    }
-} 
+}
 
 ?>

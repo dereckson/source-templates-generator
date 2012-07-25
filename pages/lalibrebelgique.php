@@ -50,11 +50,6 @@ class LaLibreBelgiquePage extends Page {
             $this->title = self::between("<title>Lalibre.be - ", "</title>");
         }
     }
-
-    function get_meta_tags () {
-	//This site doesn't always use <meta name="" value=""> but sometimes property= or itemprop=
-        return $this->get_all_meta_tags();
-    }
 }
 
 ?>
