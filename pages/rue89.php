@@ -8,6 +8,7 @@ class Rue89Page extends Page {
         //Hardcoded known info
         $this->site = "Rue 89";
         $this->skipYMD = true;
+        $this->issn = '1958-5837';
 
         //Gets date
         // http://www.rue89.com/2011/02/26/

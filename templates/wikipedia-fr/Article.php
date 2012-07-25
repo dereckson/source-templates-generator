@@ -66,7 +66,7 @@ class ArticleTemplate extends Template {
 		$template->pageEnd   = page::getMetaTag($t, 'prism_endingpage',   'citation_lastpage',  'citation_last_page');
 
 		//ISBN, ISSN, URLs
-		$template->issn = page::getMetaTag($t, 'prism_issn', 'citation_issn');
+		$template->issn = $page->issn ?: page::getMetaTag($t, 'prism_issn', 'citation_issn');
 		$template->isbn = page::getMetaTag($t, 'citation_isbn');
 		$template->doi  = page::getMetaTag($t, 'citation_doi');
 
