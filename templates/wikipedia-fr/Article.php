@@ -21,7 +21,7 @@ class ArticleTemplate extends Template {
 		$template->lang = page::getMetaTag($t, 'dc_language', 'citation_language');
 
 		//Authors
-		if ($author = page::getMetaTag($t, 'author', 'dc_creator', 'citation_authors', 'dc_contributor', 'citation_author')) {
+		if ($author = $page->author ?: page::getMetaTag($t, 'author', 'dc_creator', 'citation_authors', 'dc_contributor', 'citation_author')) {
 			//TODO: handle Alpha Beta syntax instead Beta, Alpha
 			$template->authors[] = explode(', ', $author, 2);
 		}
@@ -32,7 +32,7 @@ class ArticleTemplate extends Template {
 		}
 
 		//Journal, publisher
-		$template->journal =  page::getMetaTag($t, 'prism_publicationname', 'citation_journal_title');
+		$template->journal =  page::getMetaTag($t, 'prism_publicationname', 'citation_journal_title', 'og:site_name');
 		$template->journalLink = $t['dc_source'];
 		$template->publisher = page::getMetaTag($t, 'dc_publisher', 'citation_publisher');
 
@@ -49,7 +49,11 @@ class ArticleTemplate extends Template {
 		}
 
 		//Date
-		if ($date = page::getMetaTag($t, 'prism_publicationdate', 'dc_date', 'citation_date')) {
+		if ($page->unixtime) {
+			$template->yyyy = date('Y', $page->unixtime);
+			$template->mm   = date('m', $page->unixtime);
+			$template->dd   = date('j', $page->unixtime);
+		} elseif ($date = page::getMetaTag($t, 'prism_publicationdate', 'dc_date', 'citation_date')) {
 			$template->yyyy = substr($date, 0, 4);
 			$template->mm   = substr($date, 5, 2);
 			$template->dd   = substr($date, 8, 2);
@@ -59,7 +63,7 @@ class ArticleTemplate extends Template {
 
 		//Pages
 		$template->pageStart = page::getMetaTag($t, 'prism_startingpage', 'citation_firstpage', 'citation_first_page');
-		$template->pageEnd   = page::getMetaTag($t, 'prism_endingpage',   'citation_lastpage', 'citation_last_page');
+		$template->pageEnd   = page::getMetaTag($t, 'prism_endingpage',   'citation_lastpage',  'citation_last_page');
 
 		//ISBN, ISSN, URLs
 		$template->issn = page::getMetaTag($t, 'prism_issn', 'citation_issn');
@@ -76,7 +80,7 @@ class ArticleTemplate extends Template {
 		//Langue
 		$this->params['langue'] = $this->lang;
 
-		//Authors
+		//Auteur
 		if (count($this->authors)) {
 			$k = 1;
 			foreach ($this->authors as $author) {
@@ -91,7 +95,7 @@ class ArticleTemplate extends Template {
 		$this->params['titre'] = $this->title;
 		$this->params['périodique'] = $this->journal;
 		//TODO: vérifier si l'aticle existe sur fr.wikip et contient l'infobox Presse ou est rattaché à une catégorie fille de [[Catégorie:Revue scientifique]]
-		$this->params['lien périodique'] = $this->journal;
+		//$this->params['lien périodique'] = $this->journal;
 		$this->params['éditeur'] = $this->publisher;
 		if ($this->volume) $this->params['volume'] = $this->volume;
 		$this->params['numéro'] = $this->issue;

@@ -13,13 +13,15 @@ if (array_key_exists('format', $_REQUEST)) {
     <h1 class="icoTitle"><img src="/_pict/ico/forms.png" alt="Tools - form generation"/>{{Lien web}}</h1>
     <form method="post">
         <label for="URL">URL: </label><input type="text" size="80" name="URL" id="URL" value="<?= array_key_exists('URL', $_REQUEST) ? $_REQUEST['URL'] : '' ?>" />
-	<input type="submit" value="OK"><br />
-	Prints the template
+	<input type="submit" value="OK">
+	<p>Prints the template
 	<input type="radio" name="format" id="format_multiline" value="0" <?= $format ? '' : 'checked ' ?>/><label for="format_multiline">in multi-lines mode</label>
 	<input type="radio" name="format" id="format_oneline_spaced" value="1" <?= ($format == 1) ? 'checked ' : '' ?>/><label for="format_oneline_spaced"">in one line (with spaces)</label>
         <br />
         <input type="radio" name="format" id="format_oneline_nospace" value="2" <?= ($format == 2) ? 'checked ' : '' ?>/><label for="format_oneline_nospace"">in one line (without space)</label>
 	<input type="radio" name="format" id="format_oneline_spacebeforepipe" value="3" <?= ($format == 3) ? 'checked ' : '' ?>/><label for="format_oneline_spacebeforepipe"">in one line (without space, except before |)</label>
+        </p>
+        <p><input type="checkbox" name="force_article" id="force_article" /> <label for="force_article">Force {{Article}} template</label></p>
     </form>
 <?php
 if (array_key_exists('URL', $_REQUEST)) {
@@ -37,13 +39,13 @@ if (array_key_exists('URL', $_REQUEST)) {
     if ($page->error) {
         message_die(GENERAL_ERROR, "Can't open $url", 'URL issue');
     }
-    if ($page->is_article()) {
+    if (!$_REQUEST['force_article'] && $page->is_article()) {
         echo "<h3>Note</h3><p>Cette URL pointe vers un article de revue, aussi le modèle {{Article}} est indiqué.</p>";
     }
 
     //Gets template
     require('templates/template.php');
-    if ($page->is_article()) {
+    if ($_REQUEST['force_article'] || $page->is_article()) {
         require('templates/wikipedia-fr/Article.php');
         $template = ArticleTemplate::loadFromPage($page);
     } else {

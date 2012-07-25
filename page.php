@@ -19,11 +19,17 @@ class Page {
 
     public $title;
     public $author;
+
+    //If we use the parameters yyyy mm dd
     public $yyyy;
     public $mm;
     public $dd;
 
+    //If not:
+    public $date;
+    public $unixtime;
     public $skipYMD;
+
     public $skipAuthor;
 
     public $error;

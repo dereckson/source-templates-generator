@@ -18,7 +18,8 @@ class LaLibreBelgiquePage extends Page {
         $yyyy = substr($date, 6, 4);
         $mm   = substr($date, 3, 2);
         $dd   = substr($date, 0, 2);
-        $this->date = strftime(LONG_DATE_FORMAT, mktime(12, 0, 0, $mm, $dd, $yyyy));
+	$this->unixtime = mktime(12, 0, 0, $mm, $dd, $yyyy);
+        $this->date = strftime(LONG_DATE_FORMAT, $this->unixtime);
 
 	//Gets authors
         $authors = trim(self::between('<p id="writer">', '</p>'));

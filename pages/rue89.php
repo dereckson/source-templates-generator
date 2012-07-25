@@ -14,7 +14,8 @@ class Rue89Page extends Page {
         $yyyy = substr($this->url, 21, 4);
         $mm   = substr($this->url, 26, 2);
         $dd   = substr($this->url, 29, 2);
-        $this->date = strftime(LONG_DATE_FORMAT, mktime(0, 0, 0, $mm, $dd, $yyyy));
+        $this->unixtime = mktime(0, 0, 0, $mm, $dd, $yyyy);
+        $this->date = strftime(LONG_DATE_FORMAT, $this->unixtime);
 
 	//Gets author
 	//TODO: ensure no article has more than one author
@@ -33,6 +34,6 @@ class Rue89Page extends Page {
 	//Rue89 doesn't always use <meta name="" value=""> but sometimes property= or itemprop=
         return $this->get_all_meta_tags();
     }
-} 
+}
 
 ?>

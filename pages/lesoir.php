@@ -15,7 +15,8 @@ class LeSoirPage extends Page {
         $yyyy = substr($this->meta_tags['archi_id'],  2, 4);
         $mm   = substr($this->meta_tags['archi_id'],  6, 2);
         $dd   = substr($this->meta_tags['archi_id'],  8, 2);
-        $this->date = strftime(LONG_DATE_FORMAT, mktime(0, 0, 0, $mm, $dd, $yyyy));
+        $this->unixtime = mktime(0, 0, 0, $mm, $dd, $yyyy);
+        $this->date = strftime(LONG_DATE_FORMAT, $this->unixtime);
 
 	//Gets author
 	$authors = self::between('st_signature">', '</p>');
