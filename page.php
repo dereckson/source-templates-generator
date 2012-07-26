@@ -125,15 +125,26 @@ class Page {
      * Analyses metatags to process content
      */
     function analyse () {
+        //Meta tags (including <meta property="" value=""> and <meta itemprop="" value="" syntax)
         $this->meta_tags = $this->get_meta_tags();
+        $t = $this->meta_tags;
+
+        //Title
         $this->title = $this->get_title();
 
-        if (array_key_exists('date', $this->meta_tags)) {
-            $date = date_parse($this->meta_tags['date']);
+        //Date
+        if ($date = $this->getMetaTag($t, 'date')) {
+            $date = date_parse($date);
             $this->yyyy = $date['year'];
             $this->mm   = $date['month'];
             $this->dd   = $date['day'];
         }
+
+        //Site name
+        $this->site = $this->getMetaTag($t, 'og:site_name');
+
+        //Author
+        $this->author = $this->getMetaTag($t, 'author');
     }
 
     /**
@@ -178,8 +189,8 @@ class Page {
      * @return string The page title
      */
     function get_title () {
-        if (array_key_exists('title', $this->meta_tags)) return $this->meta_tags['title'];
-        return (preg_match("#<title>(.+)<\/title>#iU", $this->data, $title)) ? trim($title[1]) : '';
+	$title = $this->getMetaTag($this->meta_tags, 'title', 'og:title', 'DC.title');
+        return $title ?: ((preg_match("#<title>(.+)<\/title>#iU", $this->data, $title)) ? trim($title[1]) : '');
     }
 
     /**
