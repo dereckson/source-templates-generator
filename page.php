@@ -189,7 +189,7 @@ class Page {
      * @return string The page title
      */
     function get_title () {
-	$title = $this->getMetaTag($this->meta_tags, 'title', 'og:title', 'DC.title');
+	$title = $this->getMetaTag($this->meta_tags, 'title', 'og:title', 'DC.title', 'Title');
         return $title ?: ((preg_match("#<title>(.+)<\/title>#iU", $this->data, $title)) ? trim($title[1]) : '');
     }
 
@@ -222,8 +222,9 @@ class Page {
         $metatags = array_shift($tags);
 
         foreach ($tags as $tag) {
-            if (array_key_exists($tag, $metatags)) {
-                return $metatags[$tag];
+            $tag_lowercase = strtolower($tag);
+            foreach ($metatags as $key => $value) {
+                if ($tag_lowercase == strtolower($key)) return $value;
             }
         }
 
