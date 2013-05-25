@@ -4,6 +4,8 @@ define('LONG_DATE_FORMAT', '%e %B %Y');
 define('USER_AGENT', 'WikimediaTools/SourceTemplatesGenerator/0.1');
 define('USER_AGENT_FALLBACK', 'Mozilla/5.0');
 
+require_once('helpers/Encoding.php');
+
 class Page {
     public $url;
 
@@ -85,16 +87,28 @@ class Page {
      */
     function __construct ($url) {
         $this->url = $url;
+        $this->get_data();
+        if ($this->data) {
+            $this->analyse();
+       }
+    }
+
+    function get_data () {
 	ini_set('user_agent', USER_AGENT);
-        $this->data = @file_get_contents($url);
-        if (!$this->data) {
+        $data = file_get_contents($this->url);
+        if (!$data) {
             ini_set('user_agent', USER_AGENT_FALLBACK);
-            if (!$this->data = @file_get_contents($url)) {
+            if (!$data = @file_get_contents($this->url)) {
                 $this->error = "Can't read URL";
                 return;
             }
         }
-        $this->analyse();
+        $encoding = mb_detect_encoding($data, "ISO-8859-15, ISO-8859-1, UTF-8, ASCII, auto");
+        if ($encoding && $encoding != 'UTF-8') {
+            $this->data = Encoding::toUTF8($data);
+        } else {
+            $this->data = $data;
+        }
     }
 
     /**
