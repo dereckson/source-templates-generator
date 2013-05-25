@@ -18,10 +18,10 @@ class ArticleTemplate extends Template {
 		$t = $page->meta_tags;
 
 		//Language
-		$template->lang = page::getMetaTag($t, 'dc_language', 'citation_language');
+		$template->lang = page::getMetaTag($t, 'dc_language', 'citation_language', 'dc.Language');
 
 		//Authors
-		if ($author = $page->author ?: page::getMetaTag($t, 'author', 'dc_creator', 'citation_authors', 'dc_contributor', 'citation_author')) {
+		if ($author = $page->author ?: page::getMetaTag($t, 'author', 'dc_creator', 'citation_authors', 'dc_contributor', 'citation_author', 'dc.Creator')) {
 			//TODO: handle Alpha Beta syntax instead Beta, Alpha
 			$template->authors[] = explode(', ', $author, 2);
 		}
@@ -32,13 +32,13 @@ class ArticleTemplate extends Template {
 		}
 
 		//Journal, publisher
-		$template->journal =  page::getMetaTag($t, 'prism_publicationname', 'citation_journal_title', 'og:site_name');
+		$template->journal =  $page->journal ?: page::getMetaTag($t, 'prism_publicationname', 'citation_journal_title', 'og:site_name');
 		$template->journalLink = $t['dc_source'];
-		$template->publisher = page::getMetaTag($t, 'dc_publisher', 'citation_publisher');
+		$template->publisher = $page->publisher ?: page::getMetaTag($t, 'dc_publisher', 'citation_publisher');
 
 		//Issue name, number and volume
-		$template->issue  = page::getMetaTag($t, 'prism_number', 'citation_issue');
-		$template->volume = page::getMetaTag($t, 'citation_volume');
+		$template->issue  = $page->issue ?: page::getMetaTag($t, 'prism_number', 'citation_issue');
+		$template->volume = $page->volume ?: page::getMetaTag($t, 'citation_volume');
 		if (
 			(!$template->issueName = $t['prism_issuename'])
 			&&
@@ -54,21 +54,31 @@ class ArticleTemplate extends Template {
 			$template->mm   = date('m', $page->unixtime);
 			$template->dd   = date('j', $page->unixtime);
 		} elseif ($date = page::getMetaTag($t, 'prism_publicationdate', 'dc_date', 'citation_date')) {
-			$template->yyyy = substr($date, 0, 4);
-			$template->mm   = substr($date, 5, 2);
-			$template->dd   = substr($date, 8, 2);
+			if ($date[4] == '/' || $date[4] == '-' || $date[4] == '.') {
+				$template->yyyy = substr($date, 0, 4);
+				$template->mm   = substr($date, 5, 2);
+				$template->dd   = substr($date, 8, 2);
+			} else {
+				$template->yyyy = substr($date, 6, 4);
+				$template->mm   = substr($date, 0, 2);
+				$template->dd   = substr($date, 3, 2);
+			}
 		} else {
-			$template->yyyy = page::getMetaTag($t, 'citation_year', 'citation_publication_date');
+			$template->yyyy = $page->yyyy ?: page::getMetaTag($t, 'citation_year', 'citation_publication_date');
 		}
 
 		//Pages
-		$template->pageStart = page::getMetaTag($t, 'prism_startingpage', 'citation_firstpage', 'citation_first_page');
-		$template->pageEnd   = page::getMetaTag($t, 'prism_endingpage',   'citation_lastpage',  'citation_last_page');
+		if ($page->pages) {
+			$template->pageStart = $page->pages;
+		} else {
+			$template->pageStart = page::getMetaTag($t, 'prism_startingpage', 'citation_firstpage', 'citation_first_page');
+			$template->pageEnd   = page::getMetaTag($t, 'prism_endingpage',   'citation_lastpage',  'citation_last_page');
+		}
 
 		//ISBN, ISSN, URLs
 		$template->issn = $page->issn ?: page::getMetaTag($t, 'prism_issn', 'citation_issn');
 		$template->isbn = page::getMetaTag($t, 'citation_isbn');
-		$template->doi  = page::getMetaTag($t, 'citation_doi');
+		$template->doi  = $page->doi ?: page::getMetaTag($t, 'citation_doi');
 
 		$template->summary = page::getMetaTag($t, 'citation_abstract_html_url');
 		$template->url = self::getTextURL($page->url, $t);
@@ -81,14 +91,18 @@ class ArticleTemplate extends Template {
 		$this->params['langue'] = $this->lang;
 
 		//Auteur
-		if (count($this->authors)) {
-			$k = 1;
-			foreach ($this->authors as $author) {
-				$this->params["prénom$k"] = $author[1];
-				$this->params["nom$k"] = $author[0];
-				$this->params["lien auteur$k"] = '';
-				$k++;
-			}
+		if (!count($this->authors)) {
+			//Per http://fr.wikipedia.org/w/?&diff=93455862, print
+                        //one blank set of lines for author when the article
+                        //metadata doesn't offer author information.
+			$this->authors = [['', '']];
+		}
+		$k = 1;
+		foreach ($this->authors as $author) {
+			$this->params["prénom$k"] = $author[1];
+			$this->params["nom$k"] = $author[0];
+			$this->params["lien auteur$k"] = '';
+			$k++;
 		}
 
 		//Titre, périodique, éditeur, volume, etc.
