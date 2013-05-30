@@ -275,4 +275,27 @@ class Page {
 
         return substr($text, $pos1, $pos2 - $pos1);
     }
+
+    /**
+     * Downloads, through CURL library, accepting cookies.
+     *
+     * @param $url The URL to fetch
+     */
+    static function curl_download ($url) {
+	$ch = curl_init();
+	$timeout = 5;
+	$cookie_file = tmpfile();
+	$cookie_file = tempnam(sys_get_temp_dir(), "cookie-sourcesgen-");
+	curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+	curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
+	curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_file);
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+	$data = curl_exec($ch);
+	curl_close($ch);
+	unlink($cookie_file);
+	return $data;
+   }
 }
