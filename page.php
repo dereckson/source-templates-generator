@@ -3,6 +3,7 @@
 define('LONG_DATE_FORMAT', '%e %B %Y');
 define('USER_AGENT', 'WikimediaTools/SourceTemplatesGenerator/0.1');
 define('USER_AGENT_FALLBACK', 'Mozilla/5.0');
+define('USER_AGENT_FALLBACK_FULL', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
 
 require_once('helpers/Encoding.php');
 
@@ -281,7 +282,7 @@ class Page {
      *
      * @param $url The URL to fetch
      */
-    static function curl_download ($url) {
+    static function curl_download ($url, $agent = '') {
 	$ch = curl_init();
 	$timeout = 5;
 	$cookie_file = tmpfile();
@@ -293,6 +294,7 @@ class Page {
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+	if ($agent != '') curl_setopt($ch, CURLOPT_USERAGENT, $agent);
 	$data = curl_exec($ch);
 	curl_close($ch);
 	unlink($cookie_file);
