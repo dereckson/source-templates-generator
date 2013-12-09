@@ -49,7 +49,11 @@ class ArticleTemplate extends Template {
 		}
 
 		//Date
-		if ($page->unixtime) {
+		if ($page->yyyy && $page->mm && $page->dd) {
+			$template->yyyy = $page->yyyy;
+			$template->mm = $page->mm;
+			$template->dd = $page->dd;
+		} elseif ($page->unixtime) {
 			$template->yyyy = date('Y', $page->unixtime);
 			$template->mm   = date('m', $page->unixtime);
 			$template->dd   = date('j', $page->unixtime);
@@ -117,7 +121,7 @@ class ArticleTemplate extends Template {
 
 		//Date
 		if ($this->mm && $this->dd) {
-			$date = mktime(12, 0, 0, $this->mm, $this->dd, $this->yyyy);
+			$date = mktime(12, 0, 0, (int)$this->mm, (int)$this->dd, (int)$this->yyyy);
 			$this->params['jour'] = trim(strftime('%e', $date));
 			$this->params['mois'] = strftime('%B', $date);
 		}
