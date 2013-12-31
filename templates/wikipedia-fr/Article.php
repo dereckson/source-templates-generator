@@ -21,7 +21,7 @@ class ArticleTemplate extends Template {
 		$template->lang = page::getMetaTag($t, 'dc_language', 'citation_language', 'dc.Language');
 
 		//Authors
-		if ($author = $page->author ?: page::getMetaTag($t, 'author', 'dc_creator', 'citation_authors', 'dc_contributor', 'citation_author', 'dc.Creator')) {
+		if ($author = $page->author ?: page::getMetaTag($t, 'author', 'dc_creator', 'citation_authors', 'dc_contributor', 'citation_author', 'dc.Creator', 'DCSext.author')) {
 			//TODO: handle Alpha Beta syntax instead Beta, Alpha
 			$template->authors[] = explode(', ', $author, 2);
 		}
@@ -57,7 +57,7 @@ class ArticleTemplate extends Template {
 			$template->yyyy = date('Y', $page->unixtime);
 			$template->mm   = date('m', $page->unixtime);
 			$template->dd   = date('j', $page->unixtime);
-		} elseif ($date = page::getMetaTag($t, 'prism_publicationdate', 'dc_date', 'citation_date')) {
+		} elseif ($date = page::getMetaTag($t, 'prism_publicationdate', 'dc_date', 'citation_date', 'datePublished', 'DC.date.issued')) {
 			if ($date[4] == '/' || $date[4] == '-' || $date[4] == '.') {
 				$template->yyyy = substr($date, 0, 4);
 				$template->mm   = substr($date, 5, 2);

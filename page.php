@@ -148,7 +148,7 @@ class Page {
         $this->title = $this->get_title();
 
         //Date
-        if ($date = $this->getMetaTag($t, 'date', 'pubdate')) {
+        if ($date = $this->getMetaTag($t, 'date', 'pubdate', 'content_create_date')) {
             $date = date_parse($date);
             $this->yyyy = $date['year'];
             $this->mm   = $date['month'];
