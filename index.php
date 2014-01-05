@@ -53,13 +53,14 @@ if (array_key_exists('URL', $_REQUEST)) {
     if ($page->error) {
         message_die(GENERAL_ERROR, "Can't open $url", 'URL issue');
     }
-    if (!$_REQUEST['force_article'] && $page->is_article()) {
-        echo "<h3>Note</h3><p>Cette URL pointe vers un article de revue, aussi le modèle {{Article}} est indiqué.</p>";
+    $force_article = array_key_exists('force_article', $_REQUEST) && $_REQUEST['force_article'];
+    if (!$force_article && $page->is_article()) {
+        echo "<h3>Note</h3><p>Cette URL pointe vers un article de revue, aussi le modèle <a href=\"https://fr.wikipedia.org/wiki/Template:Article\">{{Article}}</a> est indiqué.</p>";
     }
 
     //Gets template
     require('templates/template.php');
-    if ($_REQUEST['force_article'] || $page->is_article()) {
+    if ($force_article || $page->is_article()) {
         require('templates/wikipedia-fr/Article.php');
         $template = ArticleTemplate::loadFromPage($page);
     } else {
@@ -85,14 +86,16 @@ if (array_key_exists('URL', $_REQUEST)) {
     }
 
     //Prints template
-    echo "    <h3>Template</h3>    \n    <textarea id=\"template\" rows=20 cols=80>\n$template</textarea>";
+    echo "    <h3>Template</h3>    \n    <textarea id=\"template\" rows=16 cols=80>\n$template</textarea>";
 
     //Meta tags
-    echo "\n\n    <h3>Meta tags</h3>\n    <table class=\"twelve\" cellpadding=\"8\">\n      <thead>\n        <tr><th>Tag</th><th>Value</th></tr>\n      </thead>\n      <tbody>";
-    foreach ($page->meta_tags as $key => $value) {
-        echo "\n        <tr><td>$key</td><td>$value</td></tr>";
+    if (count($page->meta_tags)) {
+        echo "\n\n    <h3>Meta tags</h3>\n    <table class=\"twelve\" cellpadding=\"8\">\n      <thead>\n        <tr><th>Tag</th><th>Value</th></tr>\n      </thead>\n      <tbody>";
+        foreach ($page->meta_tags as $key => $value) {
+            echo "\n        <tr><td>$key</td><td>$value</td></tr>";
+        }
+        echo "\n      </tbody>\n    </table>";
     }
-    echo "\n      </tbody>\n    </table>";
 }
 ?>
 
