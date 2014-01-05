@@ -1,0 +1,12 @@
+<!--
+	The following files are independant entry points able to be called directly, without index.php.
+
+	You can configure your web server to bypass Pluton for these. If you don't, Pluton will know not to print header/footer.
+-->
+<documents topic="wikimedia-write-sourcetemplatesgenerator">
+	<document>
+		<article>index</article>
+		<title>Source template generator</title>
+		<description>Generates {{Lien web}}, {{Article}} quote template from an URL.</description>
+	</document>
+</documents>

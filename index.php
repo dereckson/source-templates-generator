@@ -3,25 +3,39 @@
 $format = 0;
 if (array_key_exists('format', $_REQUEST)) {
     $format = $_REQUEST['format'];
+    setcookie('format', $_REQUEST['format'], time() + 2592000);
 } elseif (array_key_exists('format', $_COOKIE)) {
     $format = $_COOKIE['format'];
 }
 ?>
-
 <!-- Content -->
-<div id="content">
-    <h1 class="icoTitle"><img src="/_pict/ico/forms.png" alt="Tools - form generation"/>{{Lien web}}</h1>
-    <form method="post">
-        <label for="URL">URL: </label><input type="text" size="80" name="URL" id="URL" value="<?= array_key_exists('URL', $_REQUEST) ? $_REQUEST['URL'] : '' ?>" />
-	<input type="submit" value="OK">
-	<p>Prints the template
-	<input type="radio" name="format" id="format_multiline" value="0" <?= $format ? '' : 'checked ' ?>/><label for="format_multiline">in multi-lines mode</label>
-	<input type="radio" name="format" id="format_oneline_spaced" value="1" <?= ($format == 1) ? 'checked ' : '' ?>/><label for="format_oneline_spaced"">in one line (with spaces)</label>
-        <br />
-        <input type="radio" name="format" id="format_oneline_nospace" value="2" <?= ($format == 2) ? 'checked ' : '' ?>/><label for="format_oneline_nospace"">in one line (without space)</label>
-	<input type="radio" name="format" id="format_oneline_spacebeforepipe" value="3" <?= ($format == 3) ? 'checked ' : '' ?>/><label for="format_oneline_spacebeforepipe"">in one line (without space, except before |)</label>
-        </p>
-        <p><input type="checkbox" name="force_article" id="force_article" /> <label for="force_article">Force {{Article}} template</label></p>
+    <h2>Get source template for this URL</h2>
+    <form method="post" class="custom">
+        <label for="URL">URL: </label>
+        <div class="row collapse">
+          <div class="ten mobile-three columns">
+            <input type="text" name="URL" id="URL" value="<?= array_key_exists('URL', $_REQUEST) ? $_REQUEST['URL'] : '' ?>" />
+          </div>
+          <div class="two mobile-one columns">
+             <input type="submit" class="button expand postfix" value="Generate template" />
+          </div>
+        </div>
+        <div class="row collapse">
+          <div class="six columns">
+            <label>Prints the template:</label>
+            <label for="format_multiline"><input type="radio" name="format" id="format_multiline" value="0" <?= $format ? '' : 'checked ' ?>/> in multi-lines mode</label>
+            <label for="format_oneline_spaced"><input type="radio" name="format" id="format_oneline_spaced" value="1" <?= ($format == 1) ? 'checked ' : '' ?>/> in one line (with spaces)</label>
+            <label for="format_oneline_nospace"><input type="radio" name="format" id="format_oneline_nospace" value="2" <?= ($format == 2) ? 'checked ' : '' ?>/> in one line (without space)</label>
+            <label for="format_oneline_spacebeforepipe"><input type="radio" name="format" id="format_oneline_spacebeforepipe" value="3" <?= ($format == 3) ? 'checked ' : '' ?>/> in one line (without space, except before |)</label>
+          </div>
+          <div class="six columns">
+            <label>Project:</label>
+            <select>
+              <option value="fr.wikipedia">French Wikipedia</option>
+            </select>
+            <label for="force_article"><input type="checkbox" name="force_article" id="force_article" /> Force {{Article}} template</label>
+          </div>
+        </div>
     </form>
 <?php
 if (array_key_exists('URL', $_REQUEST)) {
@@ -70,37 +84,38 @@ if (array_key_exists('URL', $_REQUEST)) {
            break;
     }
 
-    //Remembers 30 days the format setting
-    if (array_key_exists('format', $_REQUEST)) {
-        setcookie('format', $_REQUEST['format'], time() + 2592000);
-    }
-
     //Prints template
     echo "    <h3>Template</h3>    \n    <textarea id=\"template\" rows=20 cols=80>\n$template</textarea>";
 
     //Meta tags
-    echo "\n\n    <h3>Meta tags</h3>\n    <table cellpadding=8>\n        <tr><th>Tag</th><th>Value</th></tr>";
+    echo "\n\n    <h3>Meta tags</h3>\n    <table class=\"twelve\" cellpadding=\"8\">\n      <thead>\n        <tr><th>Tag</th><th>Value</th></tr>\n      </thead>\n      <tbody>";
     foreach ($page->meta_tags as $key => $value) {
-        echo "        <tr><td>$key</td><td>$value</td></tr>";
+        echo "\n        <tr><td>$key</td><td>$value</td></tr>";
     }
-    echo "\n    </table>";
+    echo "\n      </tbody>\n    </table>";
 }
 ?>
-    <h3>How to improve this tool?</h3>
-    <p>A little PHP knowledge will allow you to customize and improve this tool. I will be happy to accept patches in this goal.</p>
-    <p>If you wish to adapt this tool to be used on another website (a Wikipedia project in another language or outside Wikipedia), please see the template.php file and samples in the templates/ folder.</p>
-    <p>If you wish to add websites analysis, please add the URL in index.dat, then create a class which extends Page ; see page.php and the pages/ folder.</p>
-    <p><strong>Source code:</strong> [ <a href="http://hg.dereckson.be/source-templates-generator">git repository</a> | <a href="https://bitbucket.org/dereckson/source-templates-generator/get/master.zip">download current snapshot</a> ]</p>
-</div>
 
-<!-- left menu -->
-<div id="leftMenu">
-    <ul class="navMenu">
+  <h2>Documentation</h2>
+  <div class="row">
+    <div class="three columns">
+      <h3>References</h3>
+      <ul class="menu">
 	<li><a href="http://fr.wikipedia.org/wiki/Modèle:Lien web">{{Lien web}}</a></li>
 	<li><a href="http://fr.wikipedia.org/wiki/Modèle:Article">{{Article}}</a></li>
 	<li><a href="http://www.prismstandard.org/specifications/">PRISM</a></li>
 	<li><a href="http://dublincore.org/">Dublin Core</a></li>
 	<li><a href="http://scholar.google.com/intl/en/scholar/inclusion.html">Google Scholar</a></li>
 	<li><a href="http://ogp.me/">Open Graph</a></li>
-    </ul>
-</div>
+      </ul>
+    </div>
+    <div class="nine columns">
+      <h3>How to improve this tool?</h3>
+      <p>A little PHP knowledge will allow you to customize and improve this tool. I will be happy to accept patches in this goal.</p>
+      <p>If you wish to adapt this tool to be used on another website (a Wikipedia project in another language or outside Wikipedia), please see the template.php file and samples in the templates/ folder.</p>
+      <p>If you wish to add websites analysis, please add the URL in index.dat, then create a class which extends Page ; see page.php and the pages/ folder.</p>
+      <p><strong>Source code:</strong> [ <a href="http://hg.dereckson.be/source-templates-generator">git repository</a> | <a href="https://bitbucket.org/dereckson/source-templates-generator/get/master.zip">download current snapshot</a> ]</p>
+    </div>
+  </div>
+
+<script src="/javascripts/jquery.foundation.forms.js"></script>
