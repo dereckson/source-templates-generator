@@ -1,7 +1,7 @@
 If you delete the helpers/namecase.php script, the package is licensed under
 the following 2 clauses BSD license:
 
-Copyright (c) 2012, Sébastien Santoro
+Copyright (c) 2012-2014, Sébastien Santoro aka Dereckson
 Some rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,7 @@ _______________________________________________________________________________
 If you keep the package as is, you're contaminated by copyleft, and so the
 applicable license is GPLv3:   
 
-    Copyright (c) 2012, Sébastien Santoro
+    Copyright (c) 2012-2014, Sébastien Santoro aka Dereckson
     Some rights reserved.
 
     This program is free software: you can redistribute it and/or modify
