@@ -8,6 +8,9 @@ define('USER_AGENT_FALLBACK_FULL', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-
 require_once('helpers/Encoding.php');
 
 class Page {
+    /*
+     * @var string The page URL
+     */
     public $url;
 
     /**
