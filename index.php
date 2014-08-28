@@ -1,6 +1,7 @@
 <?php
 
 require 'vendor/autoload.php';
+require 'autoload.php';
 
 //Get default form settings
 $format = 0;
@@ -61,13 +62,27 @@ if (array_key_exists('URL', $_REQUEST)) {
         echo "<h3>Note</h3><p>Cette URL pointe vers un article de revue, aussi le modèle <a href=\"https://fr.wikipedia.org/wiki/Template:Article\">{{Article}}</a> est indiqué.</p>";
     }
 
+    if ($page->switchTo != null) {
+        $documentObject = new $page->switchTo['document']['class'];
+        foreach ($page->switchTo['document']['params'] as $key => $value) {
+            $documentObject->$key = $value;
+        }
+        call_user_func([$documentObject, $page->switchTo['document']['method']]);
+    }
+
     //Gets template
-    require('templates/template.php');
-    if ($force_article || $page->is_article()) {
-        require('templates/wikipedia-fr/Article.php');
+    if ($page->switchTo != null) {
+        switch ($page->switchTo['template']) {
+            case 'book':
+                $template = OuvrageTemplate::loadFromBook($documentObject);
+                break;
+
+            default:
+                $template = "DEBUG: please add a template logic for this switch object:\n\n" . print_r($page->switchTo, true);
+        }
+    } elseif ($force_article || $page->is_article()) {
         $template = ArticleTemplate::loadFromPage($page);
     } else {
-        require('templates/wikipedia-fr/Lien_web.php');
         $template = LienWebTemplate::loadFromPage($page);
     }
 

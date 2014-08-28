@@ -83,6 +83,10 @@ class Page {
      */
     public $skipAuthor;
 
+    /**
+     * @var mixed If not null, contains an array for anotheser service to use
+     */
+    public $switchTo = null;
 
     /**
      * @var string The last error occured while opening and parsing the page
