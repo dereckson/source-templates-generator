@@ -1,0 +1,8 @@
+{
+    "name": "dereckson/source-templates-generator",
+    "description": "Generates sources and references templates for Wikipedia",
+    "type": "package",
+    "require": {
+        "php": ">=5.4"
+    }
+}

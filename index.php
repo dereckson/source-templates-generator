@@ -1,4 +1,7 @@
 <?php
+
+require 'vendor/autoload.php';
+
 //Get default form settings
 $format = 0;
 if (array_key_exists('format', $_REQUEST)) {
