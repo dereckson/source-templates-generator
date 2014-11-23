@@ -10,13 +10,18 @@ class LienWebTemplate extends Template {
 	public $mm;
 	public $yyyy;
 	public $site;
-	public $publishdate;
+    public $pageDate = null;
 	public $accessdate;
 
 	/**
 	 * @var bool Indicates if we've to remove jour/mois/année parameters
 	 */
 	public $skipYMD = false;
+
+	/**
+	 * @var bool Indicates if we've to remove jour/mois parameters but maybe keep année
+	 */
+	public $skipMD = false;
 
 	/**
 	 * @var bool Indicates if we've to remove auteur and coauteurs parameters
@@ -40,11 +45,20 @@ class LienWebTemplate extends Template {
 		$template->mm = $page->mm;
 		$template->yyyy = $page->yyyy;
 		$template->site = $page->site;
-		$template->publishdate = $page->date;
+        $template->pageDate = $page->date;
 		$template->skipYMD = $page->skipYMD;
+		$template->skipMD = $page->skipMD;
 
 		return $template;
 	}
+
+    function computeDate () {
+        if ($this->pageDate !== "" && $this->pageDate !== null) {
+            echo '<div data-alert class="alert-box info radius">';
+            echo "<p>The Page metadata contains the following date information:<br />$this->pageDate</p><p>{{Lien web}} should now use jour, mois, année instead of a date parameter to provide richer machine data.</p>";
+            echo ' <a href="#" class="close">&times;</a></div>';
+        }
+    }
 
 	function __toString () {
 		if (!$this->skipAuthor) {
@@ -55,17 +69,18 @@ class LienWebTemplate extends Template {
 			}
 		}
 		$this->params['titre'] = $this->title;
-		if (!$this->skipYMD) {
+        $this->computeDate();
+		if (!$this->skipYMD && !$this->skipMD) {
 			$this->params['jour'] = $this->mm;
 			$this->params['mois'] = $this->dd;
+        }
+		if (!$this->skipYMD) {
 			$this->params['année'] = $this->yyyy;
 		}
 		$this->params['url'] = $this->url;
 		$this->params['site'] = $this->site;
-		$this->params['en ligne le'] = $this->publishdate;
 		$this->params['consulté le'] = $this->accessdate;
 
 		return parent::__toString();
 	}
 }
-?>

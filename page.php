@@ -75,7 +75,12 @@ class Page {
     /**
      * @var bool Indicates if we have to skip year/month/date template parameters
      */
-    public $skipYMD;
+    public $skipYMD = false;
+
+    /**
+     * @var bool Indicates if we have to skip month/date (but maybe keep year) template parameters
+     */
+    public $skipMD = false;
 
 
     /**
