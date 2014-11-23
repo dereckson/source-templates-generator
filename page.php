@@ -134,7 +134,7 @@ class Page {
         //Each line contains the URL beginning, a tabulation, and the page analyser name
         //  * class is this name, appended by 'Page'
         //  * source file is the lowercase version of this name, appended by '.php'
-	$pages = file('pages/index.dat', true);
+        $pages = file('pages/index.dat', true);
         foreach ($pages as $line) {
             $page = explode("\t", $line);
             if (substr($url, 0, strlen($page[0])) == $page[0]) {
