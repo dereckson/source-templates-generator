@@ -2,8 +2,29 @@
     "name": "dereckson/source-templates-generator",
     "description": "Generates sources and references templates for Wikipedia",
     "type": "package",
+    "keywords": [
+        "wikipedia",
+        "cite",
+        "sources",
+        "tempkates",
+        "generator"
+    ],
+    "homepage": "http://tools.nasqueron.org/wikimedia/write/sourcetemplatesgenerator/",
+    "license": "GPLv3",
+    "authors": [
+        {
+            "name": "Sébastien Santoro aka Dereckson",
+            "email": "dereckson@espace-win.org",
+            "homepage": "http://www.dereckson.be/"
+        }
+    ],
     "require": {
         "php": ">=5.4",
         "easyrdf/easyrdf": "*"
+    },
+    "support": {
+        "issues": "http://devcentral.nasqueron.org/tag/nasqueron_tools/",
+        "irc": "irc://irc.freenode.net/wikipedia-fr",
+        "source": "https://github.com/dereckson/source-templates-generator/"
     }
 }
