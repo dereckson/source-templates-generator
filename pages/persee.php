@@ -9,7 +9,7 @@ class PerseePage extends Page {
      */
     function __construct ($url) {
         $this->url = $url;
-	$this->data = self::curl_download($url, USER_AGENT_FALLBACK_FULL);
+        $this->data = self::curl_download($url, USER_AGENT_FALLBACK_FULL);
         $this->analyse();
     }
 
@@ -41,5 +41,4 @@ class PerseePage extends Page {
     function is_article () {
         return true;
     }
-
 }

@@ -7,7 +7,6 @@ class Rue89Page extends Page {
 
         //Hardcoded known info
         $this->site = "Rue 89";
-        $this->skipYMD = true;
         $this->issn = '1958-5837';
 
         //Gets date
@@ -18,8 +17,8 @@ class Rue89Page extends Page {
         $this->unixtime = mktime(0, 0, 0, $mm, $dd, $yyyy);
         $this->date = strftime(LONG_DATE_FORMAT, $this->unixtime);
 
-	//Gets author
-	//TODO: ensure no article has more than one author
+        //Gets author
+        //TODO: ensure no article has more than one author
         $pos1 = strpos($this->data, '<div class="authors">');
         $pos1 = strpos($this->data, 'class="author">', $pos1) + 15;
         $pos2 = strpos($this->data, '/a>', $pos1) - 1;
@@ -27,7 +26,7 @@ class Rue89Page extends Page {
     }
 
     function get_title () {
-	//Article title is the meta tag name, and not the page title
+    //Article title is the meta tag name, and not the page title
         return $this->meta_tags['name'];
     }
 }

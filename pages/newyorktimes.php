@@ -18,7 +18,7 @@ class NewYorkTimesPage extends Page {
 
         //Gets author
         //TODO: Handle the several authors case
-	require('helpers/namecase.php');
+        require('helpers/namecase.php');
         $author = substr($this->meta_tags['byl'], 3);
         $this->author = name_case($author);
     }

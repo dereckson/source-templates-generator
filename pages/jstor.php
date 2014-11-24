@@ -9,7 +9,7 @@ class JSTORPage extends Page {
      */
     function __construct ($url) {
         $this->url = $url;
-	$this->data = self::curl_download($url);
+        $this->data = self::curl_download($url);
         $this->analyse();
     }
 
@@ -26,9 +26,9 @@ class JSTORPage extends Page {
         $this->issn = self::between('<div class="issn">ISSN: ', '</div>');
         $this->url = self::between('<div class="stable">Article Stable URL: ', '</div>');
 
-	//Publisher
+        //Publisher
         $pub = self::between('<div class="pubString">Published by: ', '</div>');
-	$this->publisher = $pub ? self::grab($pub, '>', '</a>') : 'JSTOR';
+        $this->publisher = $pub ? self::grab($pub, '>', '</a>') : 'JSTOR';
 
         //Issue information
         $srcInfo = trim(self::between('<!-- Formatting requires these tags be mashed together -->', '</div>'));
@@ -37,10 +37,10 @@ class JSTORPage extends Page {
 
         $this->issue  = self::grab($srcInfo, "No. ", " ");
 
-	$this->yyyy = self::grab($srcInfo, '(', ')');
+        $this->yyyy = self::grab($srcInfo, '(', ')');
 
         $pos = strpos($srcInfo, "pp. ");
-	$this->pages = substr($srcInfo, $pos + 4);
+        $this->pages = substr($srcInfo, $pos + 4);
     }
 
     function is_article () {
