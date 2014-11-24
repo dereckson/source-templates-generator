@@ -5,7 +5,7 @@ class LeFigaroPage extends Page {
         parent::analyse();
 
         //Hardcoded known info
-        $this->site = "Le Figaro";
+        $this->site = "[[Le Figaro]]";
         $this->skipYMD = true;
         $this->issn = '0182-5852';
 

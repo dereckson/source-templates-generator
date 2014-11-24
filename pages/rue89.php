@@ -6,7 +6,7 @@ class Rue89Page extends Page {
         parent::analyse();
 
         //Hardcoded known info
-        $this->site = "Rue89";
+        $this->site = "[[Rue89]]";
         $this->issn = '1958-5837';
 
         //Gets date

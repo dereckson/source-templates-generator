@@ -5,7 +5,7 @@ class LeMondePage extends Page {
         parent::analyse();
 
         //Hardcoded known info
-        $this->site = "Le Monde";
+        $this->site = "[[Le Monde]]";
         $this->skipYMD = true;
         $this->issn = '1950-6244';
 

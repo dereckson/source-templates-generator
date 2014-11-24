@@ -10,7 +10,7 @@ class LaLibreBelgiquePage extends Page {
         parent::analyse();
 
         //Hardcoded known info
-        $this->site = "La Libre Belgique";
+        $this->site = "[[La Libre Belgique]]";
         $this->skipYMD = true;
 
         //Gets date

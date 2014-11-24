@@ -6,7 +6,7 @@ class NewYorkTimesPage extends Page {
         parent::analyse();
 
         //Hardcoded known info
-        $this->site = "New York Times";
+        $this->site = "[[The New York Times]]";
         $this->skipYMD = true;
 
         //Gets date from pdate metatag
