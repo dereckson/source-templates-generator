@@ -53,11 +53,29 @@ class LienWebTemplate extends Template {
 	}
 
     function computeDate () {
+        //Legacy code issue
         if ($this->pageDate !== "" && $this->pageDate !== null) {
             echo '<div data-alert class="alert-box info radius">';
             echo "<p>The Page metadata contains the following date information:<br />$this->pageDate</p><p>{{Lien web}} should now use jour, mois, année instead of a date parameter to provide richer machine data.</p>";
             echo ' <a href="#" class="close">&times;</a></div>';
         }
+    }
+
+    /**
+     * Gets the month, as a string in current locale
+     *
+     * @return string the month name
+     */
+    function getMonth () {
+        if (!$this->mm) {
+            return "";
+        }
+
+        if (is_numeric($this->mm)) {
+            return strftime('%B', mktime(0, 0, 0, (int)$this->mm));
+        }
+
+        return $this->mm;
     }
 
 	function __toString () {
@@ -72,7 +90,7 @@ class LienWebTemplate extends Template {
         $this->computeDate();
 		if (!$this->skipYMD && !$this->skipMD) {
 			$this->params['jour'] = $this->dd;
-			$this->params['mois'] = $this->mm;
+			$this->params['mois'] = $this->getMonth();
         }
 		if (!$this->skipYMD) {
 			$this->params['année'] = $this->yyyy;
