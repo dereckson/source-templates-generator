@@ -14,7 +14,7 @@ class PerseePage extends Page {
     }
 
     function analyse () {
-        parent::analyse(); 
+        parent::analyse();
         $this->publisher = 'Persée';
     }
 
@@ -36,7 +36,7 @@ class PerseePage extends Page {
         }
 
         return $metaTags;
-    }   
+    }
 
     function is_article () {
         return true;
