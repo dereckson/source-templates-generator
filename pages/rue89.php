@@ -6,16 +6,11 @@ class Rue89Page extends Page {
         parent::analyse();
 
         //Hardcoded known info
-        $this->site = "Rue 89";
+        $this->site = "Rue89";
         $this->issn = '1958-5837';
 
         //Gets date
-        // http://www.rue89.com/2011/02/26/
-        $yyyy = substr($this->url, 21, 4);
-        $mm   = substr($this->url, 26, 2);
-        $dd   = substr($this->url, 29, 2);
-        $this->unixtime = mktime(0, 0, 0, $mm, $dd, $yyyy);
-        $this->date = strftime(LONG_DATE_FORMAT, $this->unixtime);
+        list($this->yyyy, $this->mm, $this->dd) = $this->extractDateFromURL('/');
 
         //Gets author
         //TODO: ensure no article has more than one author
@@ -25,8 +20,15 @@ class Rue89Page extends Page {
         $this->author = substr($this->data, $pos1, $pos2 - $pos1);
     }
 
+    function extractDateFromURL ($separator) {
+        $regexp = "@.*([0-9][0-9][0-9][0-9])$separator([0-9][0-9])$separator([0-9][0-9]).*@";
+        preg_match($regexp, $this->url, $matches);
+        array_shift($matches);
+        return $matches;
+    }
+
     function get_title () {
-    //Article title is the meta tag name, and not the page title
+        //Article title is the meta tag name, and not the page title
         return $this->meta_tags['name'];
     }
 }
