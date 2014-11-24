@@ -71,8 +71,8 @@ class LienWebTemplate extends Template {
 		$this->params['titre'] = $this->title;
         $this->computeDate();
 		if (!$this->skipYMD && !$this->skipMD) {
-			$this->params['jour'] = $this->mm;
-			$this->params['mois'] = $this->dd;
+			$this->params['jour'] = $this->dd;
+			$this->params['mois'] = $this->mm;
         }
 		if (!$this->skipYMD) {
 			$this->params['année'] = $this->yyyy;
