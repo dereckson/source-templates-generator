@@ -47,5 +47,3 @@ class JSTORPage extends Page {
         return true;
     }
 }
-
-?>

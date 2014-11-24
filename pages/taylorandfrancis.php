@@ -53,5 +53,3 @@ class TaylorAndFrancisPage extends Page {
         return true;
     }
 }
-
-?>

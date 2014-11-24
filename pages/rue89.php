@@ -31,5 +31,3 @@ class Rue89Page extends Page {
         return $this->meta_tags['name'];
     }
 }
-
-?>

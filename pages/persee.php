@@ -43,5 +43,3 @@ class PerseePage extends Page {
     }
 
 }
-
-?>

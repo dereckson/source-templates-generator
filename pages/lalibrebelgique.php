@@ -51,5 +51,3 @@ class LaLibreBelgiquePage extends Page {
         }
     }
 }
-
-?>

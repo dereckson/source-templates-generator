@@ -27,5 +27,3 @@ class LeFigaroPage extends Page {
 	$this->author = substr($author, $pos);
     }
 }
-
-?>

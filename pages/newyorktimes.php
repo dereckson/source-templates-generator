@@ -23,5 +23,3 @@ class NewYorkTimesPage extends Page {
         $this->author = name_case($author);
     }
 }
-
-?>

@@ -26,5 +26,3 @@ class LeMondePage extends Page {
 	$this->author = substr($author, $pos);
     }
 }
-
-?>

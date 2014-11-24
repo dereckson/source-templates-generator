@@ -25,5 +25,3 @@ class LesChroniquesAutomatiquesPage extends Page {
         return substr($title, 0, $pos);
     }
 }
-
-?>

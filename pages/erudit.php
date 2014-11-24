@@ -11,5 +11,3 @@ class EruditPage extends Page {
        $this->meta_tags['citation_doi'] = trim($doi);
     }
 }
-
-?>
