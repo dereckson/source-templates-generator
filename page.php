@@ -221,7 +221,7 @@ class Page {
      * @return string The page title
      */
     function get_title () {
-	$title = $this->getMetaTag($this->meta_tags, 'title', 'og:title', 'DC.title', 'Title');
+        $title = $this->getMetaTag($this->meta_tags, 'title', 'og:title', 'DC.title', 'Title');
         return $title ?: ((preg_match("#<title>(.+)<\/title>#iU", $this->data, $title)) ? trim($title[1]) : '');
     }
 
@@ -310,21 +310,21 @@ class Page {
      * @param $url The URL to fetch
      */
     static function curl_download ($url, $agent = '') {
-	$ch = curl_init();
-	$timeout = 5;
-	$cookie_file = tmpfile();
-	$cookie_file = tempnam(sys_get_temp_dir(), "cookie-sourcesgen-");
-	curl_setopt($ch, CURLOPT_COOKIESESSION, true);
-	curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
-	curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_file);
-	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-	if ($agent != '') curl_setopt($ch, CURLOPT_USERAGENT, $agent);
-	$data = curl_exec($ch);
-	curl_close($ch);
-	unlink($cookie_file);
-	return $data;
+        $ch = curl_init();
+        $timeout = 5;
+        $cookie_file = tmpfile();
+        $cookie_file = tempnam(sys_get_temp_dir(), "cookie-sourcesgen-");
+        curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+        curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
+        curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_file);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        if ($agent != '') curl_setopt($ch, CURLOPT_USERAGENT, $agent);
+        $data = curl_exec($ch);
+        curl_close($ch);
+        unlink($cookie_file);
+        return $data;
    }
 }
