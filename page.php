@@ -321,7 +321,9 @@ class Page {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-        if ($agent != '') curl_setopt($ch, CURLOPT_USERAGENT, $agent);
+        if ($agent != '') {
+            curl_setopt($ch, CURLOPT_USERAGENT, $agent);
+        }
         $data = curl_exec($ch);
         curl_close($ch);
         unlink($cookie_file);
