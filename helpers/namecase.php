@@ -10,28 +10,28 @@
  * @license   http://www.gnu.org/licenses/gpl-3.0.txt
  * @link      http://dialect.ca/code/name-case/
  */
- 
+
 /**
  * Apply properly capitalization rules to a name.
  *
  * @param string $str
  * @returns string
- */    
+ */
 function name_case($str) {
     // basic check for e-mail addresses to allow copy-and-paste of e-mail lists
     if(strpos($str, '@') && strpos($str, '.'))
         return $str;
 
     if(function_exists('mb_convert_encoding'))
-        $str = @mb_convert_encoding($str, 'UTF-8', 'auto'); 
-    
+        $str = @mb_convert_encoding($str, 'UTF-8', 'auto');
+
     $processed_chunks = array();
 
     // build name chunks
     $buffer = '';
     for($i = 0; $i < strlen($str); $i++) {
         // check for delimiters
-        if(preg_match('/[\s]+/', $str[$i]) > 0 || $str[$i] == '-' || 
+        if(preg_match('/[\s]+/', $str[$i]) > 0 || $str[$i] == '-' ||
            $str[$i] == '.' || $str[$i] == ',') {
             $processed_chunks[] = _process_name_case_chunk($buffer . $str[$i]);
             $buffer = '';
@@ -52,7 +52,7 @@ function name_case($str) {
  * @param string $str
  * @returns string
  * @see name_case
- */    
+ */
 function _process_name_case_chunk($str) {
     // Surname prefixes
     if(preg_match('/^(van|von|der|la|d[aeio]|d[ao]s|dit)[\s,]*$/i', $str))
