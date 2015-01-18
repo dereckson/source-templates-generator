@@ -122,12 +122,12 @@ if (array_key_exists('URL', $_REQUEST)) {
     <div class="three columns">
       <h3>References</h3>
       <ul class="menu">
-	<li><a href="http://fr.wikipedia.org/wiki/Modèle:Lien web">{{Lien web}}</a></li>
-	<li><a href="http://fr.wikipedia.org/wiki/Modèle:Article">{{Article}}</a></li>
-	<li><a href="http://www.prismstandard.org/specifications/">PRISM</a></li>
-	<li><a href="http://dublincore.org/">Dublin Core</a></li>
-	<li><a href="http://scholar.google.com/intl/en/scholar/inclusion.html">Google Scholar</a></li>
-	<li><a href="http://ogp.me/">Open Graph</a></li>
+        <li><a href="http://fr.wikipedia.org/wiki/Modèle:Lien web">{{Lien web}}</a></li>
+        <li><a href="http://fr.wikipedia.org/wiki/Modèle:Article">{{Article}}</a></li>
+        <li><a href="http://www.prismstandard.org/specifications/">PRISM</a></li>
+        <li><a href="http://dublincore.org/">Dublin Core</a></li>
+        <li><a href="http://scholar.google.com/intl/en/scholar/inclusion.html">Google Scholar</a></li>
+        <li><a href="http://ogp.me/">Open Graph</a></li>
       </ul>
     </div>
     <div class="nine columns">

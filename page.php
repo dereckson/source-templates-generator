@@ -112,7 +112,7 @@ class Page {
     }
 
     function get_data () {
-	ini_set('user_agent', USER_AGENT);
+        ini_set('user_agent', USER_AGENT);
         $data = file_get_contents($this->url);
         if (!$data) {
             ini_set('user_agent', USER_AGENT_FALLBACK);
