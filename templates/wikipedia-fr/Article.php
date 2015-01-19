@@ -111,8 +111,8 @@ class ArticleTemplate extends Template {
         //Auteur
         if (!count($this->authors)) {
             //Per http://fr.wikipedia.org/w/?&diff=93455862, print
-                        //one blank set of lines for author when the article
-                        //metadata doesn't offer author information.
+            //one blank set of lines for author when the article
+            //metadata doesn't offer author information.
             $this->authors = [['', '']];
         }
         $k = 1;
