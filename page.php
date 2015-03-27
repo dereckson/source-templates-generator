@@ -196,8 +196,7 @@ class Page {
     function get_all_meta_tags () {
         //Thank you to Michael Knapp and Mariano
         //See http://php.net/manual/en/function.get-meta-tags.php comments
-        preg_match_all('/<[\s]*meta[\s]*\b(name|property|itemprop)\b="?' . '([^>"]*)"?[\s]*' . 'content="?([^>"]*)"?[\s]*[\/]?[\s]*>/si', $this->data, $match);
-
+        preg_match_all('/<[\s]*meta[\s]+.*?\b(name|property|itemprop)\b="?' . '([^>"]*)"?[\s]*' . 'content="?([^>"]*)"?[\s]*[\/]?[\s]*>/si', $this->data, $match);
         if (isset($match) && is_array($match) && count($match) == 4) {
             $originals = $match[0];
             $names = $match[2];
@@ -206,13 +205,46 @@ class Page {
             if (count($originals) == count($names) && count($names) == count($values)) {
                 $metaTags = array();
 
-                for ($i=0, $limiti = count($names) ; $i < $limiti ; $i++) {
-                    $metaTags[$names[$i]] = $values[$i];
+                for ($i = 0, $limiti = count($names) ; $i < $limiti ; $i++) {
+                    $key = $names[$i];
+                    $value = $values[$i];
+
+                    //Sets an unique scalar value, or if several identical tag names are offered, an array of values.
+                    //Some publishers offer several times the same tag to list several values (see T241).
+                    if (array_key_exists($key, $metaTags)) {
+                        $currentValue = $metaTags[$key];
+                        if ($currentValue == $value) {
+                            continue;
+                        }
+                        if (is_array($currentValue)) {
+                            $metaTags[$key][] = $value;
+                        } else {
+                            //Scalar -> array
+                            $metaTags[$key] = [ $currentValue, $value ];
+                        }
+                    } else {
+                        $metaTags[$key] = $value;
+                    }
                 }
             }
         }
 
+        array_walk($metaTags, [ self, clean_tag ]);
+
         return $metaTags;
+    }
+
+    /**
+     * Cleans a tag value (callback for array_walk)
+     *
+     * @param mixed &$value array item's value
+     * @param string $key array item's key
+     */
+    static function clean_tag (&$item, $key) {
+        if (is_array($item)) {
+            $item = join("; ", $item);
+        }
+        return trim($item);
     }
 
     /**
