@@ -36,7 +36,7 @@ class Page {
     /**
      * @var Array The page coauthors
      */
-    public $coauthors;
+    public $coauthors = [];
 
     /**
      * @var string The site ISSN

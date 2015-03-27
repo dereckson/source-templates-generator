@@ -34,7 +34,11 @@ class ArticleTemplate extends Template {
         $template->lang = page::getMetaTag($t, 'dc_language', 'citation_language', 'dc.Language');
 
         //Authors
-        if ($author = $page->author ?: page::getMetaTag($t, 'author', 'dc_creator', 'citation_authors', 'dc_contributor', 'citation_author', 'dc.Creator', 'DCSext.author')) {
+        if (count($page->coauthors)) {
+            foreach ($page->coauthors as $author) {
+                $template->authors[] = explode(', ', $author, 2);
+            }
+        } elseif ($author = $page->author ?: page::getMetaTag($t, 'author', 'dc_creator', 'citation_authors', 'dc_contributor', 'citation_author', 'dc.Creator', 'DCSext.author')) {
             //TODO: handle Alpha Beta syntax instead Beta, Alpha
             $author = trim($author, self::getTrimCharacterMask());
             $template->authors[] = explode(', ', $author, 2);
