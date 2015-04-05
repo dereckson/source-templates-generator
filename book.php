@@ -17,7 +17,10 @@ class Book {
 
         //Core info
         $this->Title = (string)$book->getLiteral('schema:name');
-        $this->Publisher = (string)$book->get('schema:publisher')->get('schema:name');
+        $publisherData = $book->get('schema:publisher');
+        if ($publisherData) {
+            $this->Publisher = (string)$publisherData->get('schema:name');
+        }
 
         //Publishing date
         $date = (string)$book->getLiteral('schema:datePublished');
