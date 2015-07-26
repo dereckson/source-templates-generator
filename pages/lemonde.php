@@ -18,11 +18,27 @@ class LeMondePage extends Page {
         $this->unixtime = mktime(0, 0, 0, $mm, $dd, $yyyy);
         $this->date = strftime(LONG_DATE_FORMAT, $this->unixtime);
 
-        //Gets author
+        $this->author = $this->getAuthor();
+    }
+
+    /**
+     * Gets the author of the article
+     *
+     * @return string the article's author
+     */
+    public function getAuthor () {
+        //Gets author field from HTML code
         //e.g. <span itemprop="author" class="auteur txt12_120">Stéphanie Le Bars</span>
         //TODO: ensure no article has more than one author
         $author = self::between('itemprop="author"', '</');
         $pos = strpos($author, '">') + 2;
-        $this->author = substr($author, $pos);
+        $author = trim(substr($author, $pos));
+
+        if ($author[0] == '<') {
+            $pos = strpos($author, '>') + 1;
+            return substr($author, $pos);
+        }
+
+        return $author;
     }
 }
