@@ -108,7 +108,7 @@ class Page {
         $this->get_data();
         if ($this->data) {
             $this->analyse();
-       }
+        }
     }
 
     function get_data () {
@@ -121,11 +121,14 @@ class Page {
                 return;
             }
         }
-        $encoding = mb_detect_encoding($data, "ISO-8859-15, ISO-8859-1, UTF-8, ASCII, auto");
+        $this->data = $data;
+        $this->encodeData();
+    }
+
+    function encodeData () {
+        $encoding = mb_detect_encoding($this->data, "ISO-8859-15, ISO-8859-1, UTF-8, ASCII, auto");
         if ($encoding && $encoding != 'UTF-8') {
-            $this->data = Encoding::toUTF8($data);
-        } else {
-            $this->data = $data;
+            $this->data = Encoding::toUTF8($this->data);
         }
     }
 
