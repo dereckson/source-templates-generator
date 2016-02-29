@@ -149,7 +149,6 @@ class Page {
                 $file  = strtolower(trim($page[1])) . '.php';
                 $class = trim($page[1]) . 'Page';
 
-                require("pages/$file");
                 return new $class($url);
             }
         }

@@ -12,6 +12,19 @@ function sourcetemplatesgenerator_autoloader ($class) {
         case 'ArticleTemplate': require('templates/wikipedia-fr/Article.php'); return;
         case 'LienWebTemplate': require('templates/wikipedia-fr/Lien_web.php'); return;
         case 'OuvrageTemplate': require('templates/wikipedia-fr/Ouvrage.php'); return;
+
+        case 'DownloadWithWget': require('pages/DownloadWithWget.php'); return;
+    }
+
+    if (substr($class, -4) === "Page") {
+        if (file_exists("pages/$class.php")) {
+            require "pages/$class.php";
+            return;
+        }
+
+        $file = strtolower(substr($class, 0, -4));
+        require "pages/$file.php";
+        return;
     }
 }
 
