@@ -2,17 +2,30 @@
 
 //Page analysis for www.lesoir.be
 class LeSoirPage extends Page {
-    function analyse ($skipSpecificProcessing = false) {
+
+    use DownloadWithWget;
+
+    /**
+     * Determines if the article belongs to thearchives
+     * @return bool
+     */
+    function isArchive () {
+        return strpos($this->url, "//www.lesoir.be/archives") !== false;
+    }
+
+    function analyse () {
         parent::analyse();
 
-        //Hardcoded known info
         $this->site = "[[Le Soir]]";
 
-        //Allows to skip the analyis for ArchivesLeSoirPage
-        if ($skipSpecificProcessing) {
-            return;
+        if ($this->isArchive()) {
+            $this->analyseForArchive();
+        } else {
+            $this->analyseForMainSite();
         }
+    }
 
+    function analyseForMainSite () {
         //Gets metadata
         $meta = $this->between('<div class="meta">', '</div>');
         $authors = trim(self::grab($meta, '<strong>', '</strong>'));
@@ -22,6 +35,17 @@ class LeSoirPage extends Page {
         $this->processAuthors($authors);
         if ($date) {
             $this->processDate($date);
+        }
+    }
+
+    function analyseForArchive () {
+        $authors = $this->between('st_signature">', '</p>');
+        $this->processAuthors($authors);
+
+        if ($date = trim($this->between('<p class="st_date">', '</p>'))) {
+            $this->processDate($date);
+        } else {
+            $this->extractYYYYMMDDDateFromURL();
         }
     }
 
@@ -64,12 +88,32 @@ class LeSoirPage extends Page {
     }
 
     /**
+     * Gets page title for archives sites
+     *
+     * @return string
+     */
+    function getTitleForArchive () {
+        $title = $this->between('<h3 class="story_title main">', '</h3>');
+
+        if ($title === false) {
+            $title = $this->between('<h1>', '</h1>');
+        }
+
+        return $title;
+    }
+
+    /**
      * Gets page title
      */
     function get_title () {
+        if ($this->isArchive()) {
+            return $this->getTitleForArchive();
+        }
+
         if (!$title = $this->meta_tags['og:title']) {
             $title = parent::get_title();
         }
+
         return $title;
     }
 }

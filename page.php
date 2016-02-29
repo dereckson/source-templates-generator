@@ -363,4 +363,27 @@ class Page {
         unlink($cookie_file);
         return $data;
    }
+
+    ///
+    /// DATES
+    ///
+
+    function extractYYYYMMDDDateFromURL() {
+        $pattern = "@/([12][0-9]{3})\-([0-9]{2})\-([0-9]{2})/@";
+        if (preg_match($pattern, $this->url, $matches)) {
+            $this->yyyy = $matches[1];
+            $this->mm = $matches[2];
+            $this->dd = $matches[3];
+        }
+    }
+
+    function extractYYYYDDMMateFromURL() {
+        $pattern = "@/([12][0-9]{3})\-([0-9]{2})\-([0-9]{2})/@";
+        if (preg_match($pattern, $this->url, $matches)) {
+            $this->yyyy = $matches[1];
+            $this->mm = $matches[3];
+            $this->dd = $matches[2];
+        }
+    }
+
 }
