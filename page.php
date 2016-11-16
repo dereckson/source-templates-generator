@@ -94,6 +94,11 @@ class Page {
     public $antiAdBlocker = false;
 
     /**
+     * @var bool If true, this site is behind a paywall
+     */
+    public $paywall = false;
+
+    /**
      * @var mixed If not null, contains an array for another service to use
      */
     public $switchTo = null;

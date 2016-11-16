@@ -12,6 +12,8 @@ class LienWebTemplate extends Template {
     public $site;
     public $pageDate = null;
     public $accessdate;
+    public $antiAdBlocker;
+    public $paywall;
 
     /**
      * @var bool Indicates if we've to remove jour/mois/année parameters
@@ -49,6 +51,7 @@ class LienWebTemplate extends Template {
         $template->skipYMD = $page->skipYMD;
         $template->skipMD = $page->skipMD;
         $template->antiAdBlocker = $page->antiAdBlocker;
+        $template->paywall = $page->paywall;
 
         return $template;
     }
@@ -104,6 +107,10 @@ class LienWebTemplate extends Template {
 
         if ($this->antiAdBlocker) {
             $template .= " {{Publicité forcée}}";
+        }
+
+        if ($this->paywall) {
+            $template .= " {{inscription nécessaire}}";
         }
 
         return $template;
