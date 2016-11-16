@@ -91,7 +91,7 @@ class Page {
     /**
      * @var bool If true, this site uses an anti ad blocker technology to force users to show ads
      */
-    public $antiAdBlocker = true;
+    public $antiAdBlocker = false;
 
     /**
      * @var mixed If not null, contains an array for another service to use
