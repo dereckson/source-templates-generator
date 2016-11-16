@@ -196,45 +196,34 @@ class Page {
      * @return array an array where the keys are the metatags' names and the values the metatags' values
      */
     function get_all_meta_tags () {
-        //Thank you to Michael Knapp and Mariano
-        //See http://php.net/manual/en/function.get-meta-tags.php comments
-        preg_match_all('/<[\s]*meta[\s]+.*?\b(name|property|itemprop)\b="?' . '([^>"]*)"?[\s]*' . 'content="?([^>"]*)"?[\s]*[\/]?[\s]*>/si', $this->data, $match);
-        if (isset($match) && is_array($match) && count($match) == 4) {
-            $originals = $match[0];
-            $names = $match[2];
-            $values = $match[3];
+        // Thank you to Bobble Bubble
+        // See http://php.net/manual/en/function.get-meta-tags.php comments
+        $pattern = '
+            ~<\s*meta\s
 
-            if (count($originals) == count($names) && count($names) == count($values)) {
-                $metaTags = array();
+            # Lookahead to capture type to $1
+                (?=[^>]*?
+                \b(?:name|property|itemprop|http-equiv)\s*=\s*
+                (?|"\s*([^"]*?)\s*"|\'\s*([^\']*?)\s*\'|
+                ([^"\'>]*?)(?=\s*/?\s*>|\s\w+\s*=))
+            )
 
-                for ($i = 0, $limiti = count($names) ; $i < $limiti ; $i++) {
-                    $key = $names[$i];
-                    $value = $values[$i];
+            # Capture content to $2
+            [^>]*?\bcontent\s*=\s*
+                (?|"\s*([^"]*?)\s*"|\'\s*([^\']*?)\s*\'|
+                ([^"\'>]*?)(?=\s*/?\s*>|\s\w+\s*=))
+            [^>]*>
 
-                    //Sets an unique scalar value, or if several identical tag names are offered, an array of values.
-                    //Some publishers offer several times the same tag to list several values (see T241).
-                    if (array_key_exists($key, $metaTags)) {
-                        $currentValue = $metaTags[$key];
-                        if ($currentValue == $value) {
-                            continue;
-                        }
-                        if (is_array($currentValue)) {
-                            $metaTags[$key][] = $value;
-                        } else {
-                            //Scalar -> array
-                            $metaTags[$key] = [ $currentValue, $value ];
-                        }
-                    } else {
-                        $metaTags[$key] = $value;
-                    }
-                }
-            }
-        }
+        ~ix';
 
-        array_walk($metaTags, [ self, clean_tag ]);
+		if (!preg_match_all($pattern, $this->data, $match)) {
+			return [];
+		}
 
-        return $metaTags;
-    }
+		$metaTags = array_combine($match[1], $match[2]);
+		array_walk($metaTags, 'self::clean_tag');
+		return $metaTags;
+	}
 
     /**
      * Cleans a tag value (callback for array_walk)
