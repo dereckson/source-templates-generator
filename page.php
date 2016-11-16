@@ -357,6 +357,23 @@ class Page {
     /// DATES
     ///
 
+    /**
+     * @param string $toParse The date to parse
+     * @param string $tz The timezone to use [optional]
+     */
+    function dateFromDateParse ($toParse, $tz = 'Europe/Paris') {
+        $old_tz = date_default_timezone_get();
+        date_default_timezone_set($tz);
+
+        $date = date_parse($toParse);
+        $this->yyyy = $date['year'];
+        $this->mm = $date['month'];
+        $this->dd = $date['day'];
+        $this->unixtime = mktime($date['hour'], $date['minute'], $date['second'], $date['month'], $date['day'], $date['year']);
+
+        date_default_timezone_set($old_tz);
+    }
+
     function extractYYYYMMDDDateFromURL() {
         $pattern = "@/([12][0-9]{3})\-([0-9]{2})\-([0-9]{2})/@";
         if (preg_match($pattern, $this->url, $matches)) {
