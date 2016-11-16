@@ -89,7 +89,7 @@ class Page {
     public $skipAuthor;
 
     /**
-     * @var mixed If not null, contains an array for anotheser service to use
+     * @var mixed If not null, contains an array for another service to use
      */
     public $switchTo = null;
 
