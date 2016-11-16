@@ -48,6 +48,7 @@ class LienWebTemplate extends Template {
         $template->pageDate = $page->date;
         $template->skipYMD = $page->skipYMD;
         $template->skipMD = $page->skipMD;
+        $template->antiAdBlocker = $page->antiAdBlocker;
 
         return $template;
     }
@@ -99,6 +100,12 @@ class LienWebTemplate extends Template {
         $this->params['site'] = $this->site;
         $this->params['consulté le'] = $this->accessdate;
 
-        return parent::__toString();
+        $template = parent::__toString();
+
+        if ($this->antiAdBlocker) {
+            $template .= " {{Publicité forcée}}";
+        }
+
+        return $template;
     }
 }
