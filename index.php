@@ -135,7 +135,7 @@ if (array_key_exists('URL', $_REQUEST)) {
       <p>A little PHP knowledge will allow you to customize and improve this tool. I will be happy to accept patches in this goal.</p>
       <p>If you wish to adapt this tool to be used on another website (a Wikipedia project in another language or outside Wikipedia), please see the template.php file and samples in the templates/ folder.</p>
       <p>If you wish to add websites analysis, please add the URL in index.dat, then create a class which extends Page ; see page.php and the pages/ folder.</p>
-      <p><strong>Source code:</strong> [ <a href=https://devcentral.nasqueron.org/source/STG/">Git repository</a> | <a href="https://github.com/dereckson/source-templates-generator/archive/master.zip">download current snapshot</a> ]</p>
+      <p><strong>Source code:</strong> [ <a href="https://devcentral.nasqueron.org/source/STG/">Git repository</a> | <a href="https://github.com/dereckson/source-templates-generator/archive/master.zip">download current snapshot</a> ]</p>
     </div>
   </div>
 
