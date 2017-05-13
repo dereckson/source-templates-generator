@@ -95,11 +95,13 @@ if (array_key_exists('URL', $_REQUEST)) {
        case 2:
             $template = str_replace("\n | ", '|', $template);
             $template = str_replace(" = ", '=', $template);
+            $template = str_replace("\n}}", "}}", $template);
             break;
 
        case 3:
            $template = str_replace("\n | ", ' |', $template);
            $template = str_replace(" = ", '=', $template);
+           $template = str_replace("\n}}", "}}", $template);
            break;
     }
 
