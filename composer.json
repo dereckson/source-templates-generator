@@ -10,7 +10,7 @@
         "generator"
     ],
     "homepage": "http://tools.nasqueron.org/wikimedia/write/sourcetemplatesgenerator/",
-    "license": "GPLv3",
+    "license": "GPL-3.0-only",
     "authors": [
         {
             "name": "Sébastien Santoro aka Dereckson",
