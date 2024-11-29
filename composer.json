@@ -22,6 +22,9 @@
         "php": ">=5.4",
         "easyrdf/easyrdf": "~1.1.1"
     },
+    "require-dev": {
+        "phan/phan": "5.4.5"
+    },
     "support": {
         "issues": "http://devcentral.nasqueron.org/tag/nasqueron_tools/",
         "irc": "irc://irc.freenode.net/wikipedia-fr",
