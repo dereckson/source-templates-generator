@@ -1,5 +1,7 @@
 <?php
 
+use EasyRdf\Graph;
+
 class Book {
     /**
      * OCLC number
@@ -10,7 +12,7 @@ class Book {
         $oclc = (string)(int)$this->OCLC;
 
         $url = 'http://www.worldcat.org/oclc/' . $oclc;
-        $rdf = new EasyRdf_Graph($url . '.rdf');
+        $rdf = new Graph($url . '.rdf');
         $rdf->load();
         $resources = $rdf->resources();
         $book = $resources[$url];

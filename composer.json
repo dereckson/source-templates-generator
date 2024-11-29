@@ -20,7 +20,7 @@
     ],
     "require": {
         "php": ">=5.4",
-        "easyrdf/easyrdf": "*"
+        "easyrdf/easyrdf": "~1.1.1"
     },
     "support": {
         "issues": "http://devcentral.nasqueron.org/tag/nasqueron_tools/",
